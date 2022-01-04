@@ -2,6 +2,8 @@ package models
 
 import "github.com/gofrs/uuid"
 
+// TODO Implement fixtures
+
 func (ms *ModelSuite) Test_User() {
 	u := &User{
 		FirstName: "John",

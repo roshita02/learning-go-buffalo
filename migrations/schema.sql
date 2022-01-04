@@ -55,6 +55,21 @@ CREATE TABLE public.blogs (
 ALTER TABLE public.blogs OWNER TO postgres;
 
 --
+-- Name: blogs_tags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.blogs_tags (
+    id uuid NOT NULL,
+    blog_id uuid NOT NULL,
+    tag_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.blogs_tags OWNER TO postgres;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -64,6 +79,20 @@ CREATE TABLE public.schema_migration (
 
 
 ALTER TABLE public.schema_migration OWNER TO postgres;
+
+--
+-- Name: tags; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.tags (
+    id uuid NOT NULL,
+    name character varying(255) NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.tags OWNER TO postgres;
 
 --
 -- Name: users; Type: TABLE; Schema: public; Owner: postgres
@@ -98,6 +127,22 @@ ALTER TABLE ONLY public.blogs
 
 
 --
+-- Name: blogs_tags blogs_tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blogs_tags
+    ADD CONSTRAINT blogs_tags_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: tags tags_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.tags
+    ADD CONSTRAINT tags_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -118,6 +163,22 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 ALTER TABLE ONLY public.addresses
     ADD CONSTRAINT addresses_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: blogs_tags blogs_tags_blog_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blogs_tags
+    ADD CONSTRAINT blogs_tags_blog_id_fkey FOREIGN KEY (blog_id) REFERENCES public.blogs(id);
+
+
+--
+-- Name: blogs_tags blogs_tags_tag_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blogs_tags
+    ADD CONSTRAINT blogs_tags_tag_id_fkey FOREIGN KEY (tag_id) REFERENCES public.tags(id);
 
 
 --
