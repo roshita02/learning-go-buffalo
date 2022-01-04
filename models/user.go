@@ -64,7 +64,7 @@ func (u User) FullName() string {
 
 func (u *User) GetAdress(tx *pop.Connection) error {
 	a := Address{}
-	err :=  tx.Where("user_id = (?)", u.ID).Last(&a)
+	err := tx.Where("user_id = (?)", u.ID).Last(&a)
 	if err != nil {
 		return err
 	}
