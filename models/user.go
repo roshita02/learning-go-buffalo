@@ -17,7 +17,7 @@ type User struct {
 	LastName    string    `json:"last_name" db:"last_name"`
 	Age         int       `json:"age" db:"age"`
 	UserAddress Address   `has_one:"address"`
-	Blogs       Blogs      `has_many:"blogs"`
+	Blogs       Blogs     `has_many:"blogs"`
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }
@@ -71,5 +71,15 @@ func (u *User) GetAdress(tx *pop.Connection) error {
 	}
 
 	u.UserAddress = a
+	return nil
+}
+
+func (u *User) GetBlogs(tx *pop.Connection) error {
+	b := []Blog{}
+	err := tx.Where("user_id = (?)", u.ID).All(&b)
+	if err != nil {
+		return err
+	}
+	u.Blogs = b
 	return nil
 }

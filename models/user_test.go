@@ -50,3 +50,36 @@ func (ms *ModelSuite) Test_UserAddress() {
 	u2.GetAdress(db)
 	ms.NotEmpty(u2.UserAddress, "GetAddress loads the associated user address")
 }
+
+func (ms *ModelSuite) Test_UserBlogs() {
+	u := &User{
+		FirstName: "John",
+		LastName:  "Doe",
+		Age:       25,
+		Blogs: Blogs{Blog{
+			Title: "First blog",
+			Body:  "<p>Hello, This is my first blog. </p>",
+		}},
+	}
+
+	db := ms.DB
+	_, err := db.Eager().ValidateAndCreate(u)
+	if err != nil {
+		panic(err)
+	}
+
+	u2 := User{}
+	err = db.Find(&u2, u.ID)
+	if err != nil {
+		panic(err)
+	}
+
+	ms.Empty(u2.Blogs, "Blogs are not loaded with user by default.")
+	ms.Equal("John Doe", u2.FullName(), "Associated user is loaded.")
+
+	err = u2.GetBlogs(db)
+	if err != nil {
+		panic(err)
+	}
+	ms.Len(u2.Blogs, 1, "The function loads all the user's blogs.")
+}
