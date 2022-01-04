@@ -44,13 +44,13 @@ const configurator = {
       new CopyWebpackPlugin({
         patterns: [{
           from: "./assets",
-          globOptions: {
-            ignore: [
-              "**/css/**", 
-              "**/js/**", 
-              "**/src/**",
-            ]
-          }
+          // globOptions: {
+          //   ignore: [
+          //     "**/css/**", 
+          //     "**/js/**", 
+          //     "**/src/**",
+          //   ]
+          // }
         }],
       }),
       new Webpack.LoaderOptionsPlugin({minimize: true,debug: false}),
