@@ -39,6 +39,22 @@ CREATE TABLE public.addresses (
 ALTER TABLE public.addresses OWNER TO postgres;
 
 --
+-- Name: blogs; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.blogs (
+    id uuid NOT NULL,
+    title character varying(255) NOT NULL,
+    body character varying(255) NOT NULL,
+    user_id uuid NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+ALTER TABLE public.blogs OWNER TO postgres;
+
+--
 -- Name: schema_migration; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -74,6 +90,14 @@ ALTER TABLE ONLY public.addresses
 
 
 --
+-- Name: blogs blogs_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blogs
+    ADD CONSTRAINT blogs_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -94,6 +118,14 @@ CREATE UNIQUE INDEX schema_migration_version_idx ON public.schema_migration USIN
 
 ALTER TABLE ONLY public.addresses
     ADD CONSTRAINT addresses_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: blogs blogs_user_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.blogs
+    ADD CONSTRAINT blogs_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
 
 
 --

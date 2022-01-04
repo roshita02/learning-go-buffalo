@@ -17,6 +17,7 @@ type User struct {
 	LastName    string    `json:"last_name" db:"last_name"`
 	Age         int       `json:"age" db:"age"`
 	UserAddress Address   `has_one:"address"`
+	Blogs       Blogs      `has_many:"blogs"`
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }
