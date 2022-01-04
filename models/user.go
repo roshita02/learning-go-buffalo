@@ -61,3 +61,14 @@ func (u *User) ValidateUpdate(tx *pop.Connection) (*validate.Errors, error) {
 func (u User) FullName() string {
 	return u.FirstName + " " + u.LastName
 }
+
+func (u *User) GetAdress(tx *pop.Connection) error {
+	a := Address{}
+	err :=  tx.Where("user_id = (?)", u.ID).Last(&a)
+	if err != nil {
+		return err
+	}
+
+	u.UserAddress = a
+	return nil
+}
