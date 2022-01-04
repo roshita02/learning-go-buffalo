@@ -11,9 +11,9 @@ func (ms *ModelSuite) Test_Address() {
 	}
 
 	u := &User{
-		FirstName: "John",
-		LastName:  "Doe",
-		Age: 25,
+		FirstName:   "John",
+		LastName:    "Doe",
+		Age:         25,
 		UserAddress: *a,
 	}
 
@@ -25,4 +25,10 @@ func (ms *ModelSuite) Test_Address() {
 
 	ms.NotEqual(uuid.Nil, u.UserAddress.ID, "Address ID is generated when saved in DB")
 	ms.False(verrs.HasAny(), "Address and user creation have no validation errors.")
+
+	a2 := &Address{}
+	db.Eager().Find(a2, u.UserAddress.ID)
+
+	ms.Equal(u.UserAddress.ID, a2.ID, "Find address in database using ID value.")
+	ms.Equal("John Doe", a2.User.FullName(), "User is loaded with address.")
 }
